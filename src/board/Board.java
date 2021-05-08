@@ -24,6 +24,14 @@ public class Board {
         }
     }
 
+    public void nextRound() {
+        for (int i = 0; i < numberOfRows; i++) {
+            for (int j = 0; j < numberOfCols; j++) {
+                board[i][j].nextRound();
+            }
+        }
+    }
+
     public Field findFood(Field p) {
         if (getField(p.getRow() + 1, p.getCol() + 1).isThereFood())
             return getField(p.getRow() + 1, p.getCol() + 1);
