@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Parameter {
     private double doubleParam;
     private int intParam;
-    private ArrayList<Instructions> enumParam;
+    private ArrayList<Instruction> enumParam;
 
     public Parameter(double param) {
         doubleParam = param;
@@ -15,7 +15,7 @@ public class Parameter {
         intParam = param;
     }
 
-    public Parameter(ArrayList<Instructions> param) {
+    public Parameter(ArrayList<Instruction> param) {
         enumParam = param;
     }
 
@@ -27,7 +27,7 @@ public class Parameter {
         return intParam;
     }
 
-    public ArrayList<Instructions> getEnumParam() {
+    public ArrayList<Instruction> getEnumParam() {
         return enumParam;
     }
 }

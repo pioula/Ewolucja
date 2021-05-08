@@ -13,7 +13,7 @@ public class World {
     private double probMultiply, partOfParentEnergy, probRem, probAdd, probChangeCommand;
     private final Board board;
     private final ArrayList<Command> commands;
-    private ArrayList<Instructions> baseProgram, instructions;
+    private ArrayList<Instruction> baseProgram, instructions;
     private ArrayList<Rob> robs;
 
     private static boolean areCommandsCorrect(ArrayList<Command> commands) {
@@ -52,7 +52,7 @@ public class World {
         this.nrRounds = nrRounds;
     }
 
-    public void setBaseProgram(ArrayList<Instructions> baseProgram) {
+    public void setBaseProgram(ArrayList<Instruction> baseProgram) {
         this.baseProgram = baseProgram;
     }
 
@@ -72,7 +72,7 @@ public class World {
         this.multiplyLimit = multiplyLimit;
     }
 
-    public void setInstructions(ArrayList<Instructions> instructions) {
+    public void setInstructions(ArrayList<Instruction> instructions) {
         this.instructions = instructions;
     }
 

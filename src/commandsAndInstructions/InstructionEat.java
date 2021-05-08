@@ -4,7 +4,15 @@ import board.Field;
 import robs.Rob;
 import simulation.World;
 
-public class InstructionEat implements InstructionInterface {
+public class InstructionEat extends Instruction {
+    private static InstructionEat INSTANCE = new InstructionEat();
+
+    private InstructionEat() {};
+
+    public static InstructionEat getInstance() {
+        return INSTANCE;
+    }
+
     @Override
     public void applyCommand(Rob rob, World world) {
         Field p = world.getBoard().findFood(rob.getPosition());

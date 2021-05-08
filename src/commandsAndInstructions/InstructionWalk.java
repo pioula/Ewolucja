@@ -1,11 +1,17 @@
 package commandsAndInstructions;
 
-import board.Field;
-import robs.Directions;
 import robs.Rob;
 import simulation.World;
 
-public class InstructionWalk implements InstructionInterface {
+public class InstructionWalk extends Instruction {
+    private static InstructionWalk INSTANCE = new InstructionWalk();
+
+    private InstructionWalk() {};
+
+    public static InstructionWalk getInstance() {
+        return INSTANCE;
+    }
+
     @Override
     public void applyCommand(Rob rob, World world) {
         switch(rob.getDirection()) {

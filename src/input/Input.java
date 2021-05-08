@@ -1,10 +1,7 @@
 package input;
 
 import board.Board;
-import commandsAndInstructions.Command;
-import commandsAndInstructions.Commands;
-import commandsAndInstructions.Instructions;
-import commandsAndInstructions.Parameter;
+import commandsAndInstructions.*;
 import simulation.*;
 
 import java.io.File;
@@ -21,12 +18,12 @@ public class Input {
 
     private Pattern[] patterns;
     private Map<String, Commands> commands;
-    private Map<Character, Instructions> instructions;
+    private Map<Character, Instruction> instructions;
 
     public Input() {
         patterns = new Pattern[numberOfCommands];
         commands = new HashMap<String, Commands>();
-        instructions = new HashMap<Character, Instructions>();
+        instructions = new HashMap<Character, Instruction>();
         Init.inputInit(patterns, commands, instructions);
     }
 
@@ -59,10 +56,10 @@ public class Input {
         }
     }
 
-    private ArrayList<Instructions> recognizeInstructions(String instructionsString) {
-        ArrayList<Instructions> instructionList = new ArrayList<Instructions>();
+    private ArrayList<Instruction> recognizeInstructions(String instructionsString) {
+        ArrayList<Instruction> instructionList = new ArrayList<Instruction>();
         for (int i = 0; i < instructionsString.length(); i++) {
-            Instructions instr = instructions.get(instructionsString.charAt(i));
+            Instruction instr = instructions.get(instructionsString.charAt(i));
 
             assert instr != null : "ERROR WRONG INSTRUCTIONS!";
 

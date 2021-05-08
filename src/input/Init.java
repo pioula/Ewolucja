@@ -1,7 +1,6 @@
 package input;
 
-import commandsAndInstructions.Commands;
-import commandsAndInstructions.Instructions;
+import commandsAndInstructions.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -11,7 +10,6 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 import static commandsAndInstructions.Commands.*;
-import static commandsAndInstructions.Instructions.*;
 
 public abstract class Init {
     private static void patternsInit(Pattern[] patterns) {
@@ -53,17 +51,17 @@ public abstract class Init {
         commands.put("co_ile_wypisz", OUTPUT_FREQ);
     }
 
-    private static void mapInstructionsInit(Map<Character, Instructions> instructions) {
-        instructions.put('l', LEFT);
-        instructions.put('r', RIGHT);
-        instructions.put('i', WALK);
-        instructions.put('j', EAT);
-        instructions.put('w', SNIFF);
+    private static void mapInstructionsInit(Map<Character, Instruction> instructions) {
+        instructions.put('l', InstructionLeft.getInstance());
+        instructions.put('r', InstructionRight.getInstance());
+        instructions.put('i', InstructionWalk.getInstance());
+        instructions.put('j', InstructionRight.getInstance());
+        instructions.put('w', InstructionSniff.getInstance());
     }
 
     protected static void inputInit(Pattern[] patterns,
                                   Map<String, Commands> commands,
-                                  Map<Character, Instructions> instructions) {
+                                  Map<Character, Instruction> instructions) {
         patternsInit(patterns);
         mapCommandsInit(commands);
         mapInstructionsInit(instructions);
