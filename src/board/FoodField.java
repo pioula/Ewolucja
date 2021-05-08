@@ -20,7 +20,7 @@ public class FoodField extends Field{
     }
 
     @Override
-    public void eatFood(int foodGrowth) {
+    public void clearFood() {
         assert timeToGrowFood != 0 : "THERE IS NO FOOD YET!";
         timeToGrowFood = foodGrowth;
     }

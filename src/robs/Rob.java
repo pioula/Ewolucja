@@ -7,6 +7,12 @@ public class Rob {
     private int energy;
     private Directions direction;
 
+    public void eatFood(Field field) {
+        if (field.isThereFood()) {
+            energy += field.getFoodQuality();
+            field.clearFood();
+        }
+    }
 
     public Field getPosition() {
         return position;

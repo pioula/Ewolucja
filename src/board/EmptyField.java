@@ -14,7 +14,7 @@ public class EmptyField extends Field{
     public void nextRound() {}
 
     @Override
-    public void eatFood(int foodGrowth) {
+    public void clearFood() {
         assert false : "THERE IS NO FOOD!";
     }
 }

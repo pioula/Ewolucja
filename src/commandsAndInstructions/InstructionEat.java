@@ -9,8 +9,7 @@ public class InstructionEat implements InstructionInterface {
     public void applyCommand(Rob rob, World world) {
         Field p = world.getBoard().findFood(rob.getPosition());
         if (p.getRow() != -1) {
-            p.eatFood(world.getBoard().getFoodGrowth());
-            rob.setEnergy(rob.getEnergy() + world.getBoard().getFoodQuality());
+            rob.eatFood(p);
             rob.setPosition(p);
         }
     }

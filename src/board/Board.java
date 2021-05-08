@@ -7,7 +7,6 @@ import java.util.ArrayList;
 public class Board {
     private final int numberOfCols;
     private final int numberOfRows;
-    private int foodQuality, foodGrowth;
     private final Field[][] board;
 
 
@@ -70,11 +69,19 @@ public class Board {
     }
 
     public void setFoodQuality(int foodQuality) {
-        this.foodQuality = foodQuality;
+        for (int i = 0; i < numberOfRows; i++) {
+            for (int j = 0; j < numberOfCols; j++) {
+                board[i][j].setFoodQuality(foodQuality);
+            }
+        }
     }
 
     public void setFoodGrowth(int foodGrowth) {
-        this.foodGrowth = foodGrowth;
+        for (int i = 0; i < numberOfRows; i++) {
+            for (int j = 0; j < numberOfCols; j++) {
+                board[i][j].setFoodGrowth(foodGrowth);
+            }
+        }
     }
 
     public void setNumberOfCols(int numberOfCols) {
@@ -89,13 +96,5 @@ public class Board {
         row = row % numberOfRows;
         col = col % numberOfCols;
         return board[row][col];
-    }
-
-    public int getFoodQuality() {
-        return foodQuality;
-    }
-
-    public int getFoodGrowth() {
-        return foodGrowth;
     }
 }
