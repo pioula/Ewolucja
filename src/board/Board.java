@@ -97,4 +97,12 @@ public class Board {
         col = col % numberOfCols;
         return board[row][col];
     }
+
+    public int getNumberOfRows() {
+        return numberOfRows;
+    }
+
+    public int getNumberOfCols() {
+        return numberOfCols;
+    }
 }

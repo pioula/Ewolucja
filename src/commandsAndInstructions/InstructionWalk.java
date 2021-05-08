@@ -13,7 +13,7 @@ public class InstructionWalk extends Instruction {
     }
 
     @Override
-    public void applyCommand(Rob rob, World world) {
+    public void applyInstruction(Rob rob, World world) {
         switch(rob.getDirection()) {
             case UP -> rob.eatFood(
                     world.getBoard().getField(rob.getPosition().getRow() - 1, rob.getPosition().getCol()));
@@ -24,5 +24,7 @@ public class InstructionWalk extends Instruction {
             case RIGHT -> rob.eatFood(
                     world.getBoard().getField(rob.getPosition().getRow(), rob.getPosition().getCol() + 1));
         }
+
+        rob.useEnergyForInstruction();
     }
 }

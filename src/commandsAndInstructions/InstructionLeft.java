@@ -14,7 +14,8 @@ public class InstructionLeft extends Instruction {
     }
 
     @Override
-    public void applyCommand(Rob rob, World world) {
+    public void applyInstruction(Rob rob, World world) {
         rob.setDirection(Directions.LEFT);
+        rob.useEnergyForInstruction();
     }
 }

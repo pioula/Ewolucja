@@ -14,11 +14,13 @@ public class InstructionEat extends Instruction {
     }
 
     @Override
-    public void applyCommand(Rob rob, World world) {
+    public void applyInstruction(Rob rob, World world) {
         Field p = world.getBoard().findFood(rob.getPosition());
         if (p.getRow() != -1) {
             rob.eatFood(p);
             rob.setPosition(p);
         }
+
+        rob.useEnergyForInstruction();
     }
 }

@@ -14,10 +14,12 @@ public class InstructionSniff extends Instruction {
     }
 
     @Override
-    public void applyCommand(Rob rob, World world) {
+    public void applyInstruction(Rob rob, World world) {
         Directions direction = world.getBoard().findFoodCross(rob.getPosition());
         if (direction != null) {
             rob.setDirection(direction);
         }
+
+        rob.useEnergyForInstruction();
     }
 }

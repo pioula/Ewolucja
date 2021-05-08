@@ -1,11 +1,15 @@
 package simulation;
 
 import board.Board;
+import board.Field;
 import commandsAndInstructions.*;
+import robs.Probability;
 import robs.Rob;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.Random;
 
 public class World {
     private static final int numberOfCommands = 14;
@@ -41,7 +45,39 @@ public class World {
     }
 
     public void createRobs(int numberOfRobs) {
+        Random r = new Random();
+        for (int i = 0; i < numberOfRobs; i++) {
+            Field f = board.getField(r.nextInt(board.getNumberOfRows()), r.nextInt(board.getNumberOfCols()));
+            robs.add(new Rob(f, beginEnergy, baseProgram));
+        }
+    }
 
+    public void simulation() {
+        Random r = new Random();
+        for (int i = 0; i < nrRounds; i++) {
+            Collections.shuffle(robs);
+            ArrayList<Rob> newRobs = new ArrayList<Rob>();
+
+            for(Rob rob : robs) {
+                for (Instruction instruction : rob.getProgram()) {
+                    if (rob.getEnergy() <= 0)
+                        break;
+                    instruction.applyInstruction(rob, this);
+                }
+
+                if (rob.getEnergy() > 0) {
+                    if (rob.getEnergy() >= multiplyLimit && Probability.isHappened(probMultiply)) {
+                        Rob child = rob.multiplyRob(probAdd, probRem, probChangeCommand,
+                                partOfParentEnergy, instructions);
+                        newRobs.add(child);
+                    }
+                    newRobs.add(rob);
+                }
+            }
+
+            board.nextRound();
+            robs = newRobs;
+        }
     }
 
     public void setBeginEnergy(int beginEnergy) {

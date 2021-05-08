@@ -1,11 +1,22 @@
 package robs;
 
 import board.Field;
+import commandsAndInstructions.Instruction;
+
+import java.util.ArrayList;
+import java.util.Random;
 
 public class Rob {
     private Field position;
     private int energy;
     private Directions direction;
+    private ArrayList<Instruction> program;
+
+    public Rob(Field position, int energy, ArrayList<Instruction> program) {
+        this.position = position;
+        this.energy = energy;
+        this.program = program;
+    }
 
     public void eatFood(Field field) {
         if (field.isThereFood()) {
@@ -14,8 +25,39 @@ public class Rob {
         }
     }
 
+    public Rob multiplyRob(double probAdd, double probRem, double probChange,
+                           double partOfParentEnergy, ArrayList <Instruction> Instructions) {
+        Random r = new Random();
+        ArrayList<Instruction> newProgram = new ArrayList<Instruction>();
+
+        int removedIndex = Probability.isHappened(probRem) ? r.nextInt(program.size()) : -1;
+        for (int i = 0; i < program.size(); i++) {
+            if (i != removedIndex)
+                newProgram.add(program.get(i));
+        }
+
+        if (Probability.isHappened(probAdd))
+            newProgram.add(Instructions.get(r.nextInt(Instructions.size())));
+
+        if (Probability.isHappened(probChange))
+            newProgram.set(r.nextInt(newProgram.size()),
+                    Instructions.get(r.nextInt(Instructions.size())));
+
+        int newEnergy = (int)(energy * partOfParentEnergy);
+        energy -= newEnergy;
+        return new Rob(position, newEnergy, newProgram);
+    }
+
+    public void useEnergyForInstruction() {
+        energy--;
+    }
+
     public Field getPosition() {
         return position;
+    }
+
+    public ArrayList<Instruction> getProgram() {
+        return program;
     }
 
     public int getEnergy() {
