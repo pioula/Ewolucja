@@ -5,6 +5,8 @@ import board.Field;
 import commandsAndInstructions.*;
 import robs.Probability;
 import robs.Rob;
+import statistics.RoundStatistic;
+import statistics.Statistic;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,6 +21,7 @@ public class World {
     private final ArrayList<Command> commands;
     private ArrayList<Instruction> baseProgram, instructions;
     private ArrayList<Rob> robs;
+    private RoundStatistic statistic;
 
     private static boolean areCommandsCorrect(ArrayList<Command> commands) {
         commands.sort(Comparator.comparing(o -> o.getCommand().toString()));
@@ -42,6 +45,7 @@ public class World {
         assert areCommandsCorrect(commands) : "ERROR WRONG COMMANDS!";
         this.board = board;
         this.commands = commands;
+        statistic = new RoundStatistic();
     }
 
     public void createRobs(int numberOfRobs) {
@@ -52,11 +56,27 @@ public class World {
         }
     }
 
+    @Override
+    public String toString() {
+        StringBuilder robsString = new StringBuilder();
+        for (Rob rob : robs) {
+            robsString.append(rob);
+            robsString.append('\n');
+        }
+
+        return board.toString() + '\n' + robsString;
+    }
+
     public void simulation() {
+        System.out.println(this);
+        int howManyLeftToOutput = outputFreq;
+
         Random r = new Random();
         for (int i = 0; i < nrRounds; i++) {
             Collections.shuffle(robs);
             ArrayList<Rob> newRobs = new ArrayList<Rob>();
+
+            statistic.resetStatistics();
 
             for(Rob rob : robs) {
                 for (Instruction instruction : rob.getProgram()) {
@@ -70,14 +90,28 @@ public class World {
                         Rob child = rob.multiplyRob(probAdd, probRem, probChangeCommand,
                                 partOfParentEnergy, instructions);
                         newRobs.add(child);
+                        statistic.updateStatistics(child);
                     }
+                    rob.raiseAge();
                     newRobs.add(rob);
+                    statistic.updateStatistics(rob);
                 }
             }
 
+            if (howManyLeftToOutput == 0) {
+                System.out.println(this);
+                howManyLeftToOutput = outputFreq;
+            }
+
+            assert newRobs.size() != 0 : "THERE ARE NO MORE ROBS LEFT";
+
             board.nextRound();
-            robs = newRobs;
+            howManyLeftToOutput--;
+            System.out.println(i + 1 + ", rob: " + robs.size() + ", żyw: " + board.getNumberOfFoodFields() +
+                    ", " + statistic);
         }
+
+        System.out.println(this);
     }
 
     public void setBeginEnergy(int beginEnergy) {

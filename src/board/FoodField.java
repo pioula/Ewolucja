@@ -15,8 +15,15 @@ public class FoodField extends Field{
     }
 
     @Override
-    public void nextRound() {
-        timeToGrowFood = Math.max(0, timeToGrowFood - 1);
+    public boolean nextRound() {
+        if (timeToGrowFood - 1 == 0) {
+            timeToGrowFood = 0;
+            return true;
+        }
+        else {
+            timeToGrowFood = Math.max(0, timeToGrowFood - 1);
+            return false;
+        }
     }
 
     @Override

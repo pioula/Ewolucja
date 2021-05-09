@@ -15,14 +15,30 @@ public class InstructionWalk extends Instruction {
     @Override
     public void applyInstruction(Rob rob, World world) {
         switch(rob.getDirection()) {
-            case UP -> rob.eatFood(
-                    world.getBoard().getField(rob.getPosition().getRow() - 1, rob.getPosition().getCol()));
-            case DOWN -> rob.eatFood(
-                    world.getBoard().getField(rob.getPosition().getRow() + 1, rob.getPosition().getCol()));
-            case LEFT -> rob.eatFood(
-                    world.getBoard().getField(rob.getPosition().getRow(), rob.getPosition().getCol() - 1));
-            case RIGHT -> rob.eatFood(
-                    world.getBoard().getField(rob.getPosition().getRow(), rob.getPosition().getCol() + 1));
+            case UP -> {
+                if (rob.eatFood(
+                        world.getBoard().getField(rob.getPosition().getRow() - 1, rob.getPosition().getCol()))) {
+                            world.getBoard().remFoodField();
+                        }
+            }
+            case DOWN -> {
+                if (rob.eatFood(
+                        world.getBoard().getField(rob.getPosition().getRow() + 1, rob.getPosition().getCol()))) {
+                    world.getBoard().remFoodField();
+                }
+            }
+            case LEFT -> {
+                if(rob.eatFood(
+                    world.getBoard().getField(rob.getPosition().getRow(), rob.getPosition().getCol() - 1))) {
+                    world.getBoard().remFoodField();
+                }
+            }
+            case RIGHT -> {
+                if(rob.eatFood(
+                        world.getBoard().getField(rob.getPosition().getRow(), rob.getPosition().getCol() + 1))) {
+                    world.getBoard().remFoodField();
+                }
+            }
         }
 
         rob.useEnergyForInstruction();

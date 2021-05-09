@@ -17,7 +17,9 @@ public class InstructionEat extends Instruction {
     public void applyInstruction(Rob rob, World world) {
         Field p = world.getBoard().findFood(rob.getPosition());
         if (p.getRow() != -1) {
-            rob.eatFood(p);
+            if(rob.eatFood(p)) {
+                world.getBoard().remFoodField();
+            }
             rob.setPosition(p);
         }
 

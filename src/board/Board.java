@@ -8,26 +8,39 @@ public class Board {
     private final int numberOfCols;
     private final int numberOfRows;
     private final Field[][] board;
-
+    private int numberOfFoodFields;
 
     public Board(ArrayList<String> rows) {
         numberOfCols = rows.get(0).length();
         numberOfRows = rows.size();
         board = new Field[numberOfRows][numberOfCols];
+        numberOfFoodFields = 0;
         for (int i = 0; i < numberOfRows; i++) {
             for (int j = 0; j < numberOfCols; j++) {
-                if (rows.get(i).charAt(j) == 'x')
+                if (rows.get(i).charAt(j) == 'x') {
                     board[i][j] = new FoodField(i, j);
-                else
+                    numberOfFoodFields++;
+                }
+                else {
                     board[i][j] = new EmptyField(i, j);
+                }
             }
         }
+    }
+
+    public void remFoodField() {
+        numberOfFoodFields--;
+    }
+
+    public int getNumberOfFoodFields() {
+        return numberOfFoodFields;
     }
 
     public void nextRound() {
         for (int i = 0; i < numberOfRows; i++) {
             for (int j = 0; j < numberOfCols; j++) {
-                board[i][j].nextRound();
+                if (board[i][j].nextRound())
+                    numberOfFoodFields++;
             }
         }
     }

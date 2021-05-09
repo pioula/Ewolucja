@@ -11,7 +11,9 @@ public class EmptyField extends Field{
     }
 
     @Override
-    public void nextRound() {}
+    public boolean nextRound() {
+        return false;
+    }
 
     @Override
     public void clearFood() {

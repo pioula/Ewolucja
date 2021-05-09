@@ -8,7 +8,7 @@ import java.util.Random;
 
 public class Rob {
     private Field position;
-    private int energy;
+    private int energy, age;
     private Directions direction;
     private ArrayList<Instruction> program;
 
@@ -16,13 +16,25 @@ public class Rob {
         this.position = position;
         this.energy = energy;
         this.program = program;
+        this.age = 0;
     }
 
-    public void eatFood(Field field) {
+    public void raiseAge() {
+        age++;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public boolean eatFood(Field field) {
         if (field.isThereFood()) {
             energy += field.getFoodQuality();
             field.clearFood();
+            return true;
         }
+
+        return false;
     }
 
     public Rob multiplyRob(double probAdd, double probRem, double probChange,
