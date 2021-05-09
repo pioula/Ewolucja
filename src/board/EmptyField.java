@@ -19,4 +19,9 @@ public class EmptyField extends Field{
     public void clearFood() {
         assert false : "THERE IS NO FOOD!";
     }
+
+    @Override
+    public String toString() {
+        return " ";
+    }
 }

@@ -7,7 +7,7 @@ import simulation.World;
 public class InstructionEat extends Instruction {
     private static InstructionEat INSTANCE = new InstructionEat();
 
-    private InstructionEat() {};
+    private InstructionEat() {}
 
     public static InstructionEat getInstance() {
         return INSTANCE;
@@ -24,5 +24,10 @@ public class InstructionEat extends Instruction {
         }
 
         rob.useEnergyForInstruction();
+    }
+
+    @Override
+    public String toString() {
+        return "j";
     }
 }

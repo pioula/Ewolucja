@@ -126,4 +126,17 @@ public class Board {
     public int getNumberOfCols() {
         return numberOfCols;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder s = new StringBuilder();
+        for (int i = 0; i < numberOfRows; i++) {
+            for (int j = 0; j < numberOfCols; j++) {
+                s.append(board[i][j]);
+            }
+            s.append("\n");
+        }
+
+        return s.toString();
+    }
 }

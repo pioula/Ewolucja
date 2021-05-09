@@ -7,7 +7,7 @@ import simulation.World;
 public class InstructionSniff extends Instruction {
     private static InstructionSniff INSTANCE = new InstructionSniff();
 
-    private InstructionSniff() {};
+    private InstructionSniff() {}
 
     public static InstructionSniff getInstance() {
         return INSTANCE;
@@ -21,5 +21,10 @@ public class InstructionSniff extends Instruction {
         }
 
         rob.useEnergyForInstruction();
+    }
+
+    @Override
+    public String toString() {
+        return "w";
     }
 }

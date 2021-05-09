@@ -40,7 +40,7 @@ public class Rob {
     public Rob multiplyRob(double probAdd, double probRem, double probChange,
                            double partOfParentEnergy, ArrayList <Instruction> Instructions) {
         Random r = new Random();
-        ArrayList<Instruction> newProgram = new ArrayList<Instruction>();
+        ArrayList<Instruction> newProgram = new ArrayList<>();
 
         int removedIndex = Probability.isHappened(probRem) ? r.nextInt(program.size()) : -1;
         for (int i = 0; i < program.size(); i++) {
@@ -90,6 +90,18 @@ public class Rob {
 
     public void setEnergy(int energy) {
         this.energy = energy;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder s = new StringBuilder();
+        s.append("Rob: ");
+
+        for (Instruction instruction : program) {
+            s.append(instruction);
+        }
+
+        return s.toString();
     }
 
 

@@ -6,7 +6,7 @@ import simulation.World;
 public class InstructionWalk extends Instruction {
     private static InstructionWalk INSTANCE = new InstructionWalk();
 
-    private InstructionWalk() {};
+    private InstructionWalk() {}
 
     public static InstructionWalk getInstance() {
         return INSTANCE;
@@ -42,5 +42,10 @@ public class InstructionWalk extends Instruction {
         }
 
         rob.useEnergyForInstruction();
+    }
+
+    @Override
+    public String toString() {
+        return "i";
     }
 }

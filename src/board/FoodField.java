@@ -32,4 +32,12 @@ public class FoodField extends Field{
         timeToGrowFood = foodGrowth;
     }
 
+    @Override
+    public String toString() {
+        if (timeToGrowFood == 0)
+            return "x";
+        else
+            return " ";
+    }
+
 }

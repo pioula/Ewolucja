@@ -7,4 +7,7 @@ public interface FieldInterface {
 
     //returns true if the food grows on this field, else returns false
     boolean nextRound();
+
+    @Override
+    String toString();
 }
