@@ -22,6 +22,7 @@ public abstract class Init {
                 Scanner lineSc = new Scanner(sc.nextLine());
                 lineSc.useDelimiter("\n");
                 patterns[patternCounter] = Pattern.compile(lineSc.next());
+                patternCounter++;
             }
 
             sc.close();
@@ -53,9 +54,9 @@ public abstract class Init {
 
     private static void mapInstructionsInit(Map<Character, Instruction> instructions) {
         instructions.put('l', InstructionLeft.getInstance());
-        instructions.put('r', InstructionRight.getInstance());
+        instructions.put('p', InstructionRight.getInstance());
         instructions.put('i', InstructionWalk.getInstance());
-        instructions.put('j', InstructionRight.getInstance());
+        instructions.put('j', InstructionEat.getInstance());
         instructions.put('w', InstructionSniff.getInstance());
     }
 

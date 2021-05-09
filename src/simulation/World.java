@@ -14,17 +14,16 @@ import java.util.Comparator;
 import java.util.Random;
 
 public class World {
-    private static final int numberOfCommands = 14;
+    private static final int numberOfCommands = 15;
     private int nrRounds, roundCost, multiplyLimit, outputFreq, beginEnergy;
     private double probMultiply, partOfParentEnergy, probRem, probAdd, probChangeCommand;
     private final Board board;
-    private final ArrayList<Command> commands;
     private ArrayList<Instruction> baseProgram, instructions;
     private ArrayList<Rob> robs;
     private RoundStatistic statistic;
 
     private static boolean areCommandsCorrect(ArrayList<Command> commands) {
-        commands.sort(Comparator.comparing(o -> o.getCommand().toString()));
+        commands.sort(Comparator.comparing(Command::getPriority));
 
         int commandsSize = commands.size();
         for (int i = 0; i < commands.size(); i++) {
@@ -44,7 +43,12 @@ public class World {
     public World(Board board, ArrayList<Command> commands) {
         assert areCommandsCorrect(commands) : "ERROR WRONG COMMANDS!";
         this.board = board;
-        this.commands = commands;
+        robs = new ArrayList<>();
+
+        for (Command command : commands) {
+            command.applyCommand(this);
+        }
+
         statistic = new RoundStatistic();
     }
 
@@ -59,12 +63,13 @@ public class World {
     @Override
     public String toString() {
         StringBuilder robsString = new StringBuilder();
-        for (Rob rob : robs) {
-            robsString.append(rob);
-            robsString.append('\n');
+        for (int i = 0 ; i < robs.size(); i++) {
+            robsString.append(robs.get(i));
+            if (i + 1 != robs.size())
+                robsString.append('\n');
         }
 
-        return board.toString() + '\n' + robsString;
+        return "PLansza\n" + board.toString() + "\nKoniec Planszy\n" + robsString;
     }
 
     public void simulation() {
@@ -74,7 +79,7 @@ public class World {
         Random r = new Random();
         for (int i = 0; i < nrRounds; i++) {
             Collections.shuffle(robs);
-            ArrayList<Rob> newRobs = new ArrayList<Rob>();
+            ArrayList<Rob> newRobs = new ArrayList<>();
 
             statistic.resetStatistics();
 
@@ -85,18 +90,28 @@ public class World {
                     instruction.applyInstruction(rob, this);
                 }
 
-                if (rob.getEnergy() > 0) {
+                if (rob.isAlive()) {
                     if (rob.getEnergy() >= multiplyLimit && Probability.isHappened(probMultiply)) {
                         Rob child = rob.multiplyRob(probAdd, probRem, probChangeCommand,
                                 partOfParentEnergy, instructions);
-                        newRobs.add(child);
-                        statistic.updateStatistics(child);
+                        child.nextRound(roundCost);
+                        if (child.isAlive()) {
+                            newRobs.add(child);
+                            statistic.updateStatistics(child);
+                        }
+
                     }
                     rob.raiseAge();
-                    newRobs.add(rob);
-                    statistic.updateStatistics(rob);
+                    rob.nextRound(roundCost);
+
+                    if (rob.isAlive()) {
+                        newRobs.add(rob);
+                        statistic.updateStatistics(rob);
+                    }
                 }
             }
+
+            robs = newRobs;
 
             if (howManyLeftToOutput == 0) {
                 System.out.println(this);

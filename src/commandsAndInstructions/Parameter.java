@@ -13,6 +13,7 @@ public class Parameter {
 
     public Parameter(int param) {
         intParam = param;
+        doubleParam = param;
     }
 
     public Parameter(ArrayList<Instruction> param) {

@@ -114,8 +114,8 @@ public class Board {
     }
 
     public Field getField(int row, int col) {
-        row = row % numberOfRows;
-        col = col % numberOfCols;
+        row = row >= 0 ? row % numberOfRows : numberOfRows + row;
+        col = col >= 0  ? col % numberOfCols : numberOfCols + col;
         return board[row][col];
     }
 
@@ -134,7 +134,8 @@ public class Board {
             for (int j = 0; j < numberOfCols; j++) {
                 s.append(board[i][j]);
             }
-            s.append("\n");
+            if (i + 1 != numberOfRows)
+                s.append("\n");
         }
 
         return s.toString();

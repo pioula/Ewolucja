@@ -19,6 +19,14 @@ public class Rob {
         this.age = 0;
     }
 
+    public boolean isAlive() {
+        return energy > 0;
+    }
+
+    public void nextRound(int roundCost) {
+        energy -= roundCost;
+    }
+
     public void raiseAge() {
         age++;
     }

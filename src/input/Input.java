@@ -22,8 +22,8 @@ public class Input {
 
     public Input() {
         patterns = new Pattern[numberOfCommands];
-        commands = new HashMap<String, Commands>();
-        instructions = new HashMap<Character, Instruction>();
+        commands = new HashMap<>();
+        instructions = new HashMap<>();
         Init.inputInit(patterns, commands, instructions);
     }
 
@@ -32,11 +32,11 @@ public class Input {
             Scanner sc = new Scanner(new File(boardPath));
 
             int numberOfCols = 0;
-            ArrayList<String> rows = new ArrayList<String>();
+            ArrayList<String> rows = new ArrayList<>();
 
             while(sc.hasNextLine()) {
                 Scanner lineSc = new Scanner(sc.nextLine());
-                lineSc.useDelimiter("\n");
+                lineSc.useDelimiter("\0");
                 String row = lineSc.next();
 
                 assert !(row.length() == 0 ||
@@ -57,7 +57,7 @@ public class Input {
     }
 
     private ArrayList<Instruction> recognizeInstructions(String instructionsString) {
-        ArrayList<Instruction> instructionList = new ArrayList<Instruction>();
+        ArrayList<Instruction> instructionList = new ArrayList<>();
         for (int i = 0; i < instructionsString.length(); i++) {
             Instruction instr = instructions.get(instructionsString.charAt(i));
 
@@ -72,7 +72,7 @@ public class Input {
         try {
             Scanner sc = new Scanner(new File(parametersPath));
 
-            ArrayList<Command> commandLines = new ArrayList<Command>();
+            ArrayList<Command> commandLines = new ArrayList<>();
 
             while(sc.hasNextLine()) {
                 Scanner isCorrect = new Scanner(sc.nextLine());
@@ -81,7 +81,9 @@ public class Input {
                 boolean matched = false;
 
                 for (Pattern pattern : patterns) {
-                    matched |= pattern.matcher(commandLine).matches();
+                    matched = pattern.matcher(commandLine).matches();
+                    if (matched)
+                        break;
                 }
 
                 assert matched : "ERROR WRONG COMMAND!";
@@ -92,14 +94,14 @@ public class Input {
                 Commands command = commands.get(lineSc.next());
                 Parameter arg = null;
 
-                if (lineSc.hasNext())
-                    arg = new Parameter(recognizeInstructions(lineSc.next()));
+                if (lineSc.hasNextInt())
+                    arg = new Parameter(lineSc.nextInt());
 
                 if (lineSc.hasNextDouble())
                     arg = new Parameter(lineSc.nextDouble());
 
-                if (lineSc.hasNextInt())
-                    arg = new Parameter(lineSc.nextInt());
+                if (lineSc.hasNext())
+                    arg = new Parameter(recognizeInstructions(lineSc.next()));
 
                 if (arg == null)
                     return null;
