@@ -35,7 +35,7 @@ public class Command {
         getPriority(command);
     }
 
-    public void applyCommand(World world) {
+    public void applyCommand(World world) throws Exception{
         switch (command) {
             case NR_ROUNDS -> world.setNrRounds(parameter.getIntParam());
             case BOARD_SIZE_X -> world.getBoard().setNumberOfCols(parameter.getIntParam());

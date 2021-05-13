@@ -20,14 +20,14 @@ public class Input {
     private Map<String, Commands> commands;
     private Map<Character, Instruction> instructions;
 
-    public Input() {
+    public Input() throws Exception {
         patterns = new Pattern[numberOfCommands];
         commands = new HashMap<>();
         instructions = new HashMap<>();
         Init.inputInit(patterns, commands, instructions);
     }
 
-    private Board readBoard(String boardPath) {
+    private Board readBoard(String boardPath) throws Exception {
         try {
             Scanner sc = new Scanner(new File(boardPath));
 
@@ -39,9 +39,10 @@ public class Input {
                 lineSc.useDelimiter("\0");
                 String row = lineSc.next();
 
-                assert !(row.length() == 0 ||
+                if (row.length() == 0 ||
                         !boardPattern.matcher(row).matches() ||
-                        (row.length() != numberOfCols && numberOfCols != 0)) : "ERROR WRONG BOARD!";
+                        (row.length() != numberOfCols && numberOfCols != 0))
+                    throw new Exception("Wrong board!");
 
                 numberOfCols = row.length();
                 rows.add(row);
@@ -51,24 +52,24 @@ public class Input {
             return new Board(rows);
         }
         catch (FileNotFoundException e) {
-            assert false : "ERROR BOARD NOT FOUND";
-            return null;
+            throw new Exception("Board not found!");
         }
     }
 
-    private ArrayList<Instruction> recognizeInstructions(String instructionsString) {
+    private ArrayList<Instruction> recognizeInstructions(String instructionsString) throws Exception {
         ArrayList<Instruction> instructionList = new ArrayList<>();
         for (int i = 0; i < instructionsString.length(); i++) {
             Instruction instr = instructions.get(instructionsString.charAt(i));
 
-            assert instr != null : "ERROR WRONG INSTRUCTIONS!";
+            if (instr == null)
+                throw new Exception("Wrong instruction!");
 
             instructionList.add(instr);
         }
         return instructionList;
     }
 
-    private ArrayList<Command> readParameters(String parametersPath) {
+    private ArrayList<Command> readParameters(String parametersPath) throws Exception {
         try {
             Scanner sc = new Scanner(new File(parametersPath));
 
@@ -86,7 +87,8 @@ public class Input {
                         break;
                 }
 
-                assert matched : "ERROR WRONG COMMAND!";
+                if (!matched)
+                    throw new Exception("Wrong Command");
 
                 Scanner lineSc = new Scanner(commandLine);
                 lineSc.useDelimiter(" ");
@@ -113,12 +115,11 @@ public class Input {
             return commandLines;
         }
         catch (FileNotFoundException e) {
-            assert false : "ERROR COMMAND NOT FOUND!";
-            return null;
+            throw new Exception("parametry.txt not found!");
         }
     }
 
-    public World readInput(String boardPath, String parametersPath) {
+    public World readInput(String boardPath, String parametersPath) throws Exception {
         Board board = readBoard(boardPath);
         if (board == null)
             return null;

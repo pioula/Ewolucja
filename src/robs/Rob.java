@@ -17,6 +17,8 @@ public class Rob {
         this.energy = energy;
         this.program = program;
         this.age = 0;
+        //początkowo, każdy rob patrzy w górę planszy
+        this.direction = Directions.UP;
     }
 
     public boolean isAlive() {
@@ -46,22 +48,23 @@ public class Rob {
     }
 
     public Rob multiplyRob(double probAdd, double probRem, double probChange,
-                           double partOfParentEnergy, ArrayList <Instruction> Instructions) {
+                           double partOfParentEnergy, ArrayList <Instruction> instructions) {
         Random r = new Random();
         ArrayList<Instruction> newProgram = new ArrayList<>();
 
-        int removedIndex = Probability.isHappened(probRem) ? r.nextInt(program.size()) : -1;
+        //removing instruction with index removedIndex. If failed removedIndex = -1 so i != removedIndex is always true
+        int removedIndex = Probability.isHappened(probRem) && program.size() > 0 ? r.nextInt(program.size()) : -1;
         for (int i = 0; i < program.size(); i++) {
             if (i != removedIndex)
                 newProgram.add(program.get(i));
         }
 
         if (Probability.isHappened(probAdd))
-            newProgram.add(Instructions.get(r.nextInt(Instructions.size())));
+            newProgram.add(instructions.get(r.nextInt(instructions.size())));
 
-        if (Probability.isHappened(probChange))
+        if (Probability.isHappened(probChange) && newProgram.size() > 0)
             newProgram.set(r.nextInt(newProgram.size()),
-                    Instructions.get(r.nextInt(Instructions.size())));
+                    instructions.get(r.nextInt(instructions.size())));
 
         int newEnergy = (int)(energy * partOfParentEnergy);
         energy -= newEnergy;
@@ -96,20 +99,29 @@ public class Rob {
         this.direction = direction;
     }
 
-    public void setEnergy(int energy) {
-        this.energy = energy;
-    }
-
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder();
         s.append("Rob: ");
 
+        if (program.size() == 0)
+            s.append("Brak instrukcji");
+
         for (Instruction instruction : program) {
             s.append(instruction);
         }
 
-        return s.toString();
+        String kierunek = "";
+        switch(direction) {
+            case UP -> kierunek = "góra";
+            case DOWN -> kierunek = "dół";
+            case LEFT -> kierunek = "lewo";
+            case RIGHT -> kierunek = "prawo";
+        }
+
+        //if energy = 0, then Rob has just appear.
+        return s + ", poz: (" + position.getRow() + ", " + position.getCol() + ")" +
+                ", energ: " + energy + ", wiek: " + age + ", kier: " + kierunek;
     }
 
 

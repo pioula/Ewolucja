@@ -4,7 +4,7 @@ public class Statistic {
     private int maxValue, minValue, querries;
     private double sumValue;
 
-    public Statistic() {};
+    public Statistic() {}
 
     public void reset() {
         maxValue = 0;
@@ -22,6 +22,6 @@ public class Statistic {
 
     @Override
     public String toString() {
-        return minValue + "/" + sumValue/querries + "/" + maxValue;
+        return minValue + "/" + sumValue / querries + "/" + maxValue;
     }
 }

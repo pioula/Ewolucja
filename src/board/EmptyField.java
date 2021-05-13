@@ -1,8 +1,8 @@
 package board;
 
 public class EmptyField extends Field{
-    public EmptyField(int x, int y) {
-        super(x, y);
+    public EmptyField(int row, int col) {
+        super(row, col);
     }
 
     @Override

@@ -15,6 +15,7 @@ public class Board {
         numberOfRows = rows.size();
         board = new Field[numberOfRows][numberOfCols];
         numberOfFoodFields = 0;
+
         for (int i = 0; i < numberOfRows; i++) {
             for (int j = 0; j < numberOfCols; j++) {
                 if (rows.get(i).charAt(j) == 'x') {
@@ -105,12 +106,14 @@ public class Board {
         }
     }
 
-    public void setNumberOfCols(int numberOfCols) {
-        assert numberOfCols == this.numberOfCols : "WRONG BOARD SIZE X";
+    public void setNumberOfCols(int numberOfCols) throws Exception {
+        if (numberOfCols != this.numberOfCols)
+            throw new Exception("Wrong board size x!");
     }
 
-    public void setNumberOfRows(int numberOfRows) {
-        assert numberOfRows == this.numberOfRows : "WRONG BOARD SIZE X";
+    public void setNumberOfRows(int numberOfRows) throws Exception{
+        if (numberOfRows != this.numberOfRows)
+            throw new Exception("Wrong board size y!");
     }
 
     public Field getField(int row, int col) {

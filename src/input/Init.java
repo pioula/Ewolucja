@@ -4,7 +4,6 @@ import commandsAndInstructions.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -12,7 +11,7 @@ import java.util.regex.Pattern;
 import static commandsAndInstructions.Commands.*;
 
 public abstract class Init {
-    private static void patternsInit(Pattern[] patterns) {
+    private static void patternsInit(Pattern[] patterns) throws Exception {
         File file = new File("./patterns/commands_patterns.txt");
         try {
             Scanner sc = new Scanner(file);
@@ -28,7 +27,7 @@ public abstract class Init {
             sc.close();
         }
         catch (FileNotFoundException e) {
-            System.out.println("ERROR commands_patterns.txt NOT FOUND");
+            throw new Exception("commands_patterns.txt not found!");
         }
     }
 
@@ -62,7 +61,7 @@ public abstract class Init {
 
     protected static void inputInit(Pattern[] patterns,
                                   Map<String, Commands> commands,
-                                  Map<Character, Instruction> instructions) {
+                                  Map<Character, Instruction> instructions) throws Exception{
         patternsInit(patterns);
         mapCommandsInit(commands);
         mapInstructionsInit(instructions);

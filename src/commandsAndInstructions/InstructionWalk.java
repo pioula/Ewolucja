@@ -1,5 +1,6 @@
 package commandsAndInstructions;
 
+import board.Field;
 import robs.Rob;
 import simulation.World;
 
@@ -16,28 +17,35 @@ public class InstructionWalk extends Instruction {
     public void applyInstruction(Rob rob, World world) {
         switch(rob.getDirection()) {
             case UP -> {
-                if (rob.eatFood(
-                        world.getBoard().getField(rob.getPosition().getRow() - 1, rob.getPosition().getCol()))) {
+                Field f = world.getBoard().getField(rob.getPosition().getRow() - 1, rob.getPosition().getCol());
+                if (rob.eatFood(f)) {
                             world.getBoard().remFoodField();
                         }
+                rob.setPosition(f);
             }
             case DOWN -> {
+                Field f = world.getBoard().getField(rob.getPosition().getRow() + 1, rob.getPosition().getCol());
                 if (rob.eatFood(
                         world.getBoard().getField(rob.getPosition().getRow() + 1, rob.getPosition().getCol()))) {
                     world.getBoard().remFoodField();
                 }
+                rob.setPosition(f);
             }
             case LEFT -> {
+                Field f = world.getBoard().getField(rob.getPosition().getRow(), rob.getPosition().getCol() - 1);
                 if(rob.eatFood(
                     world.getBoard().getField(rob.getPosition().getRow(), rob.getPosition().getCol() - 1))) {
                     world.getBoard().remFoodField();
                 }
+                rob.setPosition(f);
             }
             case RIGHT -> {
+                Field f = world.getBoard().getField(rob.getPosition().getRow(), rob.getPosition().getCol() + 1);
                 if(rob.eatFood(
                         world.getBoard().getField(rob.getPosition().getRow(), rob.getPosition().getCol() + 1))) {
                     world.getBoard().remFoodField();
                 }
+                rob.setPosition(f);
             }
         }
 

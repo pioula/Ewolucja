@@ -1,12 +1,10 @@
 package board;
 
-import simulation.World;
-
 public class FoodField extends Field{
     private int timeToGrowFood;
 
-    public FoodField(int x, int y) {
-        super(x, y);
+    public FoodField(int row, int col) {
+        super(row, col);
     }
 
     @Override

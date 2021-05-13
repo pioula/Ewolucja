@@ -6,7 +6,7 @@ public abstract class Field implements FieldInterface{
     protected int row;
     protected int foodQuality;
 
-    public Field(int col, int row) {
+    public Field(int row, int col) {
         this.col = col;
         this.row = row;
     }

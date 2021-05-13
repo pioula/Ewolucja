@@ -6,7 +6,6 @@ import commandsAndInstructions.*;
 import robs.Probability;
 import robs.Rob;
 import statistics.RoundStatistic;
-import statistics.Statistic;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,7 +21,7 @@ public class World {
     private ArrayList<Rob> robs;
     private RoundStatistic statistic;
 
-    private static boolean areCommandsCorrect(ArrayList<Command> commands) {
+    private static boolean isTheNumberOfCommandsCorrect(ArrayList<Command> commands) {
         commands.sort(Comparator.comparing(Command::getPriority));
 
         int commandsSize = commands.size();
@@ -40,8 +39,9 @@ public class World {
         return commandsSize == numberOfCommands;
     }
 
-    public World(Board board, ArrayList<Command> commands) {
-        assert areCommandsCorrect(commands) : "ERROR WRONG COMMANDS!";
+    public World(Board board, ArrayList<Command> commands) throws Exception{
+        if (!isTheNumberOfCommandsCorrect(commands))
+            throw new Exception("Wrong number of commands!");
         this.board = board;
         robs = new ArrayList<>();
 
@@ -60,24 +60,15 @@ public class World {
         }
     }
 
-    @Override
-    public String toString() {
-        StringBuilder robsString = new StringBuilder();
-        for (int i = 0 ; i < robs.size(); i++) {
-            robsString.append(robs.get(i));
-            if (i + 1 != robs.size())
-                robsString.append('\n');
-        }
-
-        return "PLansza\n" + board.toString() + "\nKoniec Planszy\n" + robsString;
-    }
-
     public void simulation() {
         System.out.println(this);
         int howManyLeftToOutput = outputFreq;
 
-        Random r = new Random();
         for (int i = 0; i < nrRounds; i++) {
+            if (i != 0)
+                board.nextRound();
+
+            howManyLeftToOutput--;
             Collections.shuffle(robs);
             ArrayList<Rob> newRobs = new ArrayList<>();
 
@@ -99,8 +90,8 @@ public class World {
                             newRobs.add(child);
                             statistic.updateStatistics(child);
                         }
-
                     }
+
                     rob.raiseAge();
                     rob.nextRound(roundCost);
 
@@ -118,10 +109,11 @@ public class World {
                 howManyLeftToOutput = outputFreq;
             }
 
-            assert newRobs.size() != 0 : "THERE ARE NO MORE ROBS LEFT";
+            if (newRobs.size() == 0) {
+                System.out.println("Wszystkie roby nie żyją!!!");
+                break;
+            }
 
-            board.nextRound();
-            howManyLeftToOutput--;
             System.out.println(i + 1 + ", rob: " + robs.size() + ", żyw: " + board.getNumberOfFoodFields() +
                     ", " + statistic);
         }
@@ -179,5 +171,17 @@ public class World {
 
     public Board getBoard() {
         return board;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder robsString = new StringBuilder();
+        for (int i = 0 ; i < robs.size(); i++) {
+            robsString.append(robs.get(i));
+            if (i + 1 != robs.size())
+                robsString.append('\n');
+        }
+
+        return "PLansza\n" + board.toString() + "\nKoniec Planszy\n" + robsString;
     }
 }
